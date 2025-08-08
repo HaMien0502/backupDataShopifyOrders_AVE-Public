@@ -1,7 +1,7 @@
 const axios = require('axios');
 const refreshTokenLark = require('../tokens/refreshTokenLark');
 
-let LARK_ACCESS_TOKEN = "t-g2063h0VNYTA4BMX6JFXYF5QQMCWCJL3Z2NVDMO7";
+let LARK_ACCESS_TOKEN = "t-g206882RSUKUNBTAYYDXUGR3H3WHC5UXOPZCRQT2";
 let listPrimary = [];
 let listNew = [];
 let listUpdate = [];
@@ -109,7 +109,7 @@ const addDataEtsohome = async (data) => {
     try {
         await axios.post(
             LARK_API,
-            { fields: modelDataOrders(data) },
+            { fields: data },
             {
                 headers: {
                     Authorization: `Bearer ${LARK_ACCESS_TOKEN}`,
@@ -348,6 +348,7 @@ const deleteRecord = async (recordId) => {
 const deleteReocrdLark = async () => {
     let arrLarkBaseDataDelete = await getDataLarkBase();
     let arrIDUnique = await checkDuplicateOrderIds(arrLarkBaseDataDelete);
+
     if (arrIDUnique.length == 0) {
         console.log("Không có bản ghi nào trùng lặp");
         return;
@@ -369,7 +370,8 @@ const getOrderShopyfiEtsohome = async () => {
     await getDataNewUpdate(listPrimary, listDataLarkBase);
 
 
-    // // Add record data New
+    // Add record data New
+    console.log("New: ", listNew.length);
     if (listNew.length > 0) {
         for (var j = 0; j < listNew.length; j++) {
             let data = listNew[j];
@@ -379,6 +381,7 @@ const getOrderShopyfiEtsohome = async () => {
     }
 
     // Update record data
+    console.log("Update: ", listUpdate.length);
     if (listUpdate.length > 0) {
         for (var k = 0; k < listUpdate.length; k++) {
             let data = listUpdate[k];
@@ -386,9 +389,6 @@ const getOrderShopyfiEtsohome = async () => {
             await updateDataEtsohome(modelDataOrdersLarkBaseUpdate(data));
         }
     }
-
-    console.log("New: ", listNew.length);
-    console.log("Update: ", listUpdate.length);
 };
 
 module.exports = getOrderShopyfiEtsohome;
